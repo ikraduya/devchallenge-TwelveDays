@@ -10,7 +10,7 @@ class SideNav extends React.Component {
     <div className="sidenav">
       <div id="codex-logo"/>
       <Nav vertical>
-        <NavLink className={pathname === '/project' ? 'selected' : ''} href="/project">Project</NavLink>
+        <NavLink className={pathname === '/project' || pathname === '/' ? 'selected' : ''} href="/project">Project</NavLink>
         <NavLink className={pathname === '/team' ? 'selected' : ''} href="/team">Team Performance</NavLink>
         <NavLink className={pathname === '/calender' ? 'selected' : ''} href="/calender">Calendar</NavLink>
       </Nav>

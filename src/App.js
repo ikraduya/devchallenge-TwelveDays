@@ -10,9 +10,9 @@ import { ScrollToTop, RouteWrapper } from './helpers/router';
 import './App.css';
 
 const componentList = {
-  // 'Team': import('./components/Team'),
+  'Team': import('./components/Team'),
   'Project': import('./components/Project'),
-  // 'Kalender': import('./components/Kalender'),
+  'Kalender': import('./components/Calendar'),
   'NoMatch': import('./components/NoMatch'),
 };
 
@@ -21,20 +21,20 @@ const setUpLoadable = (component) => Loadable({
   loading: LoadingCSS,
 });
 
-// const Team = setUpLoadable('Team');
+const Team = setUpLoadable('Team');
 const Project = setUpLoadable('Project');
-// const Kalender = setUpLoadable('Kalender');
+const Kalender = setUpLoadable('Kalender');
 const NoMatch = setUpLoadable('NoMatch');
 
 const App = () => (
   <BrowserRouter>
     <ScrollToTop timeout={200}>
       <RouteWrapper timeout={400}>
-        {/* <Layout navbar exact path="/" component={Team} />
-        <Layout navbar exact path="/team" component={Team} /> */}
+        <Layout navbar exact path="/" component={Project} />
         <Layout navbar exact path="/project" component={Project} />
-        {/* <Layout navbar exact path="/calendar" component={Kalender} />
-        <Layout navbar exact path="/404" component={NoMatch} /> */}
+        <Layout navbar exact path="/team" component={Team} />
+        <Layout navbar exact path="/calendar" component={Kalender} />
+        <Layout navbar exact path="/404" component={NoMatch} />
         <Layout navbar exact component={NoMatch} />
       </RouteWrapper>
     </ScrollToTop>

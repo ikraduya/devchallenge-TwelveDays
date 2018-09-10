@@ -1,6 +1,69 @@
 /* Team page style */
-
+/* Project Card */
 #team-page {
-    height: 350px;
-    width: 100%;
-  }
+  padding: 21px 34px;
+}
+
+#team-page #project-and-member-card{
+  height: 250px;
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 30px;
+  padding: 30px;
+}
+
+#team-page #project-card{
+  padding-right: 30px;
+}
+
+#team-page #project-card .card-title .title {
+  text-align: left;
+  font-size: 24px;
+}
+
+/* Member Card */
+#team-page #member-card {
+  background-color: #f5f7fa;
+  border-radius: 10px;
+  padding: 20px 30px;
+  overflow: hidden;
+}
+
+#team-page #member-card .card-title {
+  margin-bottom: 0;
+}
+
+#team-page #member-card .card-title .title {
+  text-align: left;
+  font-size: 20px;
+}
+
+#team-page #member-card #member-table {
+  height: 80%;
+}
+
+#team-page #member-card #member-table th,
+#team-page #member-card #member-table td {
+  padding: 0;
+}
+
+/* Best Talent Card */
+#team-page #best-talent-card {
+  width: 100%;
+  background-color: #fff;
+  padding: 20px 30px;
+}
+
+#team-page #best-talent-card .card-title {
+  margin-bottom: 0;
+}
+
+#team-page #best-talent-card .card-title .title {
+  text-align: left;
+  font-size: 20px;
+}
+
+#team-page #best-talent-card #best-talent-table th,
+#team-page #best-talent-card #best-talent-table td {
+  padding: 0;
+}
