@@ -1,0 +1,20 @@
+/* Project page style */
+#project-page #que-all-project-card {
+  height: auto;
+  width: 100%;
+}
+
+#project-page #best-product-card {
+  height: 1024px;
+  width: 100%;
+}
+
+#project-page #best-squad-card {
+  height: 1024px;
+  width: 100%;
+}
+
+#project-page #talent-card {
+  height: 1024px;
+  width: 100%;
+}

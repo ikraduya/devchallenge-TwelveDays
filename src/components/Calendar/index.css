@@ -1,0 +1,16 @@
+/* Team page style */
+
+#calendar-page #date-card {
+    height: 350px;
+    width: 100%;
+}
+
+#calendar-page #notes-card {
+  height: 350px;
+  width: 100%;
+}
+
+#calendar-page #event-card {
+  height: 350px;
+  width: 100%;
+}

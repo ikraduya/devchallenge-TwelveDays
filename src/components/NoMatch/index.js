@@ -26,17 +26,11 @@ class NoMatch extends React.PureComponent {
 
     return (
       <div>
-        <Container>
-          <Row>
-            <Col sm="12">
-              <div className="content-body">
-                <h1>Not Found</h1>
-                <p>The page that you are looking for is not here, sorry :(</p>
-                <Button onClick={this.handleHomeClick} color="red" className="btn-red">Home</Button>
-              </div>
-            </Col>
-          </Row>
-        </Container>
+        <div className="content-body">
+          <h1>Not Found</h1>
+          <p>The page that you are looking for is not here, sorry :(</p>
+          <Button onClick={this.handleHomeClick} color="red" className="btn-red">Home</Button>
+        </div>
       </div>
     );
   }
