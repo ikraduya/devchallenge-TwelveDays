@@ -32,41 +32,49 @@ class Team extends React.PureComponent {
           endDate: "22/06/2018",
           memberList: [
             {
+              id: 1,
               nama: "Budi Artianto",
               stream: "Backend",
-              pointBurn: 105,
-              pointRemaining: 30,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 101],
+              pointRemainingHist: [0, 100, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 4,
             },
             {
+              id: 2,
               nama: "Tono Budiman",
               stream: "Backend",
-              pointBurn: 102,
-              pointRemaining: 12,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 102],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 4,
             },
             {
+              id: 3,
               nama: "Wawan Aja",
               stream: "Frontend",
-              pointBurn: 109,
-              pointRemaining: 30,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 0],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 4,
             },
             {
+              id: 4,
               nama: "HEHE Aja",
               stream: "Frontend",
-              pointBurn: 105,
-              pointRemaining: 30,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 105],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 4,
             },
             {
+              id: 5,
               nama: "KWEK Aja",
               stream: "Frontend",
-              popointBurn: 105,
-              pointRemaining: 30,
-              pointQueue: 30,intBurn: 105,
-              pointRemaining: 30,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 105],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 4,
             },
           ]
         },
@@ -79,102 +87,68 @@ class Team extends React.PureComponent {
           endDate: "22/06/2018",
           memberList: [
             {
+              id: 1,
               nama: "Budi Artianto2",
               stream: "Backend2",
-              pointBurn: 105,
-              pointRemaining: 30,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 105],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 4,
             },
             {
+              id: 2,
               nama: "Tono Budiman2",
               stream: "Backend2",
-              pointBurn: 102,
-              pointRemaining: 12,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 105],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 4,
             },
             {
+              id: 3,
               nama: "Wawan Aja2",
               stream: "Frontend2",
-              pointBurn: 109,
-              pointRemaining: 30,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 105],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 3,
             },
             {
+              id: 4,
               nama: "HEHE Aja2",
               stream: "Frontend2",
-              pointBurn: 105,
-              pointRemaining: 30,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 105],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 0,
             },
             {
+              id: 5,
               nama: "KWEK Aja2",
               stream: "Frontend2",
-              popointBurn: 105,
-              pointRemaining: 30,
-              pointQueue: 30,intBurn: 105,
-              pointRemaining: 30,
-              pointQueue: 30,
+              pointBurnHist: [0, 100, 110, 105],
+              pointRemainingHist: [0, 10, 20, 30],
+              pointQueueHist: [0, 20, 11, 30],
+              star: 2,
             },
           ]
         },
       ],
-      selectedProject: {
-        title: "My Indihome Consumen",
-        desc: "This is sample description about project",
-        stackHolder: "DEGM",
-        sprintNow: 4,
-        startDate: "12/06/2018",
-        endDate: "22/06/2018",
-        memberList: [
-          {
-            nama: "Budi Artianto",
-            stream: "Backend",
-            pointBurn: 105,
-            pointRemaining: 30,
-            pointQueue: 30,
-          },
-          {
-            nama: "Tono Budiman",
-            stream: "Backend",
-            pointBurn: 102,
-            pointRemaining: 12,
-            pointQueue: 30,
-          },
-          {
-            nama: "Wawan Aja",
-            stream: "Frontend",
-            pointBurn: 109,
-            pointRemaining: 30,
-            pointQueue: 30,
-          },
-          {
-            nama: "HEHE Aja",
-            stream: "Frontend",
-            pointBurn: 105,
-            pointRemaining: 30,
-            pointQueue: 30,
-          },
-          {
-            nama: "KWEK Aja",
-            stream: "Frontend",
-            popointBurn: 105,
-            pointRemaining: 30,
-            pointQueue: 30,intBurn: 105,
-            pointRemaining: 30,
-            pointQueue: 30,
-          },
-        ]
-      },
+      selectedProject: {},
+      isModalOpen: false,
+      selectedTalent: {},
     }
     this.handleProjectChange = this.handleProjectChange.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
     const { projectList } = this.state;
+    console.log("sudah kepanggil");
     if (projectList.length > 0) {
       this.setState({
         selectedProject: projectList[0],
-      })
+      });
     }
   }
 
@@ -199,19 +173,25 @@ class Team extends React.PureComponent {
     );
   }
 
-  renderMemberList() {
+  handleTalentNameClick(event, selectedId) {
     const { memberList } = this.state.selectedProject;
-    if (memberList.length > 0) {
-      return memberList.map((member, index) => (
-        <tr>
-          <td><span>{index + 1}</span></td>
-          <td><span>{member.nama}</span></td>
-          <td><span>{member.stream}</span></td>
-        </tr>
-      ));
-    } else {
-      return null;
-    }
+
+    event.preventDefault();
+    console.log(selectedId);
+    this.setState({
+      selectedTalent: (memberList.length > 0) ? memberList.find((member) => (member.id === selectedId)) : {},
+    }, () => {
+      this.setState({
+        isModalOpen: true,
+      })
+    })
+  }
+
+  handleBackButton() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+      selectedTalent: {},
+    })
   }
 
   // Member table
@@ -226,10 +206,10 @@ class Team extends React.PureComponent {
   }
   renderMemberList() {
     const { memberList } = this.state.selectedProject;
-    if (memberList.length > 0) {
+    if (memberList && memberList.length > 0) {
       return memberList.map((member, index) => (
-        <tr>
-          <td><span>{index + 1}</span></td>
+        <tr key={index}>
+          <td className="text-center" ><span>{index + 1}</span></td>
           <td><span>{member.nama}</span></td>
           <td><span>{member.stream}</span></td>
         </tr>
@@ -254,15 +234,16 @@ class Team extends React.PureComponent {
   }
   renderTalentList() {
     const { memberList } = this.state.selectedProject;
-    if (memberList.length > 0) {
-      return memberList.map((member, index) => (
-        <tr>
-          <td><span>{index + 1}</span></td>
-          <td><span>{member.nama}</span></td>
+    if (memberList && memberList.length > 0) {
+      const sortedMemberList = memberList.sort((mem1, mem2) => (mem2.pointBurnHist[3] - mem1.pointBurnHist[3]));
+      return sortedMemberList.map((member, index) => (
+        <tr key={index}>
+          <td className="text-center"><span>{index + 1}</span></td>
+          <td className="talent-name"><a href="" onClick={e => this.handleTalentNameClick(e, member.id)}><span>{member.nama}</span></a></td>
           <td><span>{member.stream}</span></td>
-          <td><span>{member.pointBurn}</span></td>
-          <td><span>{member.pointRemaining}</span></td>
-          <td><span>{member.pointQueue}</span></td>
+          <td className="text-center"><span>{member.pointBurnHist[3]}</span></td>
+          <td className="text-center"><span>{member.pointRemainingHist[3]}</span></td>
+          <td className="text-center"><span>{member.pointQueueHist[3]}</span></td>
         </tr>
       ));
     } else {
@@ -274,15 +255,15 @@ class Team extends React.PureComponent {
     const {
       title: titleProject, desc, stackHolder, sprintNow, startDate, endDate,
     } = this.state.selectedProject;
-    const { projectList, selectedTalent } = this.state;
+    const { projectList, selectedTalent, isModalOpen } = this.state;
 
     return (
       <div id="team-page">
         <TalentModal
-          // toggle={this.handleCancelButton}
-          // isOpen={isOpen}
+          toggle={this.handleBackButton}
+          isOpen={isModalOpen}
           className="talent-modal"
-          // selectedTalent={selectedTalent}
+          selectedTalent={selectedTalent}
         />
         <Row noGutters id="project-and-member-card">
           <Col id="project-card" md="6">
@@ -293,8 +274,8 @@ class Team extends React.PureComponent {
               <Col md="9" className="project-select">
                 <Input type="select" id="project-select-input" onChange={this.handleProjectChange} value={titleProject}>
                   {
-                    projectList.map((project) => (
-                      <option>{project.title}</option>
+                    projectList.map((project, index) => (
+                      <option key={index}>{project.title}</option>
                     ))
                   }
                 </Input>

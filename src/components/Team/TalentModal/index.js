@@ -2,292 +2,124 @@ import React, { Component } from 'react';
 import {
   Button,
   Modal,
-  ModalHeader,
   ModalFooter,
   ModalBody,
   Form,
   FormGroup,
   Label,
   Input,
+  Row,
   Col,
 } from 'reactstrap';
-
-import { CSSTransition } from 'react-transition-group';
+import StarRatingComponent from 'react-star-rating-component';
+import {XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries} from 'react-vis';
 
 class TalentModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      radioDisabled: true,
-      isSubmitBtnDisabled: true,
-      isInsertManually: false,
-      // Form field
-      fname: '',
-      email: '',
-      phone: '',
-      status: 'notAttending',
-      address: '',
-      pluses: 0,
-      // gender: '',
     };
-    this.handleModalClosed = this.handleModalClosed.bind(this);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.currentEditedId !== prevProps.currentEditedId) {
-      const { currentEditedId, type, questions } = this.props;
-      if ((currentEditedId && type === 'edit') && currentEditedId !== '') {
-        const url = `/api/guest/${currentEditedId}`;
-      }
-    }
-  }
-
-  /**
-   * Handle disable radio button
-   */
-  handleDisableRadioBtn() {
-    const { status } = this.state;
-    if (status !== 'attending') {
-      this.setState({
-        radioDisabled: true,
-        pluses: 0,
-      });
-    } else if (status === 'attending') {
-      this.setState({
-        radioDisabled: false,
-        pluses: 0,
-      });
-    }
-  }
-
-  /**
-   * @param {Object} target Javascript Object containing react virtual dom
-   */
-  handleInputChange({ target }) {
-    const { name, value } = target;
-    // handle for extra type, its an array so need to find the exact item then update it
-    if (name === 'extra') {
-      const newExtra = this.state.extra.slice(0);
-      const answer = newExtra.filter(extra => extra.question === target.getAttribute('question'))[0];
-      answer.value = value;
-      this.setState({
-        [name]: newExtra
-      });
-    } else {
-      this.setState({
-        [name]: value
-      }, () => {
-        this.handleDisableSaveBtn();
-        if (name === 'status') {
-          this.handleDisableRadioBtn();
-        }
-      });
-    }
-  }
-
-
-  /**
-   * Adding user to database
-   */
-
-  handleModalClosed() {
-    this.setState({
-      fname: '',
-      email: '',
-      phone: '',
-      status: 'notAttending',
-      address: '',
-      pluses: 0,
-      // gender: '',
-      isSubmitBtnDisabled: true,
-      isInsertManually: false,
-    });
-  }
-
-  handleInsertManually() {
-    const { isInsertManually } = this.state;
-    this.setState({
-      isInsertManually: !isInsertManually,
-      status: (isInsertManually) ? '' : 'notAttending',
-      radioDisabled: true,
-    });
   }
 
   render() {
     const {
-      type, isOpen, toggle, className,
+      isOpen, toggle, className, selectedTalent,
     } = this.props;
-    const {
-      fname, email, phone, pluses, address, status, extra,
-      radioDisabled, isSubmitBtnDisabled, isInsertManually
-    } = this.state;
-    const headerTitle = type === 'edit' ? 'Edit Guest / RSVP' : 'Add Guest / RSVP';
+    const { nama, stream, star, pointBurnHist, pointRemainingHist, pointQueueHist } = selectedTalent;
 
-    // Guest Create modal
-    return (
-      <Modal isOpen={isOpen} toggle={toggle} className={className} size="lg" onClosed={this.handleModalClosed}>
+    let level = '';
+    if (star === 0) {
+      level = 'Newbie';
+    } else if (star === 1) {
+      level = 'Beginner';
+    } else if (star === 2) {
+      level = 'Rookie';
+    } else if (star === 3) {
+      level = 'Novice';
+    } else if (star === 4) {
+      level = 'Expert';
+    } else if (star === 5) {
+      level = 'Master';
+    }
+
+    const dataPointBurn = pointBurnHist ? pointBurnHist.map((hist, index) => ({x: `Periode ${index+1}`, y: hist})) : [];
+    const dataPointRemain = pointRemainingHist ? pointRemainingHist.map((hist, index) => ({x: `Periode ${index+1}`, y: hist})) : [];
+    const dataPointQueue = pointQueueHist ? pointQueueHist.map((hist, index) => ({x: `Periode ${index+1}`, y: hist})) : [];
+
+    const totalPoint = (pointBurnHist && pointRemainingHist && pointQueueHist) ? (pointBurnHist[3] + pointRemainingHist[3] + pointQueueHist[3]) : 0;
+
+
+    return(
+      <Modal isOpen={isOpen} toggle={toggle} className={className}>
         <ModalBody>
-          <Form>
-            <FormGroup row>
-              <Label for="form-guest-fname" sm={3}>Full Name</Label>
-              <Col sm={9}>
-                <Input
-                  type="text"
-                  name="fname"
-                  id="form-guest-fname"
-                  placeholder="Full Name"
-                  value={fname}
-                  onChange={this.handleInputChange}
-                  required
+          <Row>
+            <Col id="profile-pic" md="5">
+            </Col>
+            <Col id="info" col="7">
+              <Row id="printed-info" noGutters>
+                <Col>
+                  <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {nama}</div>
+                  <div>Stream&nbsp;&nbsp;&nbsp;: {stream}</div>
+                  <div>Level&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {level}</div>
+                </Col>
+              </Row>
+              <Row id="star" noGutters>
+                <StarRatingComponent
+                  name="userRating"
+                  editing={false}
+                  starCount={5}
+                  value={star}
+                  starColor="#FFD43B"
+                  emptyStarColor="#AEB9CB"
                 />
-              </Col>
-            </FormGroup>
-
-            <FormGroup row>
-              <Label for="form-guest-email" sm={3}>Email</Label>
-              <Col sm={9}>
-                <Input
-                  type="email"
-                  name="email"
-                  id="form-guest-email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={this.handleInputChange}
-                />
-              </Col>
-            </FormGroup>
-
-            <FormGroup row>
-              <Col sm={12}>
-                <div id="checkbox-insert-manually">
-                  <Label>
-                    <Input
-                      type="checkbox"
-                      onChange={this.handleInsertManually}
-                      checked={isInsertManually}
-                    />{' '}
-                    Fill RSVP questions manually for this guest
-                  </Label>
-                </div>
-              </Col>
-            </FormGroup>
-
-            <CSSTransition
-              in={(isInsertManually)}
-              timeout={{ enter: 100, exit: 400 }}
-              classNames="fade"
-              unmountOnExit
-            >
-              <div>
-                <FormGroup row>
-                  <Label for="form-guest-phone" sm={3}>Phone</Label>
-                  <Col sm={9}>
-                    <Input
-                      type="text"
-                      name="phone"
-                      id="form-guest-phone"
-                      placeholder="Phone"
-                      value={phone}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row>
-                  <Label for="form-guest-phone" sm={3}>Address</Label>
-                  <Col sm={9}>
-                    <Input
-                      rows={3}
-                      type="textarea"
-                      name="address"
-                      id="form-guest-phone"
-                      placeholder="Address"
-                      value={address}
-                      onChange={this.handleInputChange}
-                    />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row>
-                  <Label for="form-guest-status" sm={3}>Status</Label>
-                  <Col sm={9}>
-                    <Input
-                      type="select"
-                      name="status"
-                      id="form-guest-status"
-                      onChange={this.handleInputChange}
-                      value={status || 'notAttending'}
-                    >
-                      <option value="attending">Attending</option>
-                      <option value="notAttending">Not Attending</option>
-                      <option value="pending">Pending</option>
-                    </Input>
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row>
-                  <Label for="form-guest-pluses" sm={3}>Plus(es)</Label>
-                  <Col sm={9}>
-                    <FormGroup check inline className="selectgroup selectgroup-pills">
-                      {Array.from({ length: 4 }).map((value, index) => (
-                        <label
-                          htmlFor={`form-guest-pluses-${index}`}
-                          className="selectgroup-item"
-                          key={`form-guest-pluses-${index}`}
-                        >
-                          <input
-                            type="radio"
-                            name="pluses"
-                            id={`form-guest-pluses-${index}`}
-                            value={index}
-                            checked={(status === 'attending' && pluses.toString() === index.toString())}
-                            onChange={this.handleInputChange}
-                            className="selectgroup-input"
-                            disabled={radioDisabled}
-                          />
-                          <span
-                            className="selectgroup-button selectgroup-button-icon selectgroup-button-icon-text"
-                          >
-                            {index}
-                          </span>
-                        </label>
-                      ))}
-                    </FormGroup>
-                  </Col>
-                </FormGroup>
-                {extra && extra.length &&
-                  <FormGroup row>
-                    <span>Additional Detail</span>
-                  </FormGroup>
-                }
-                {extra && extra.map((answer, index) => (
-                  <FormGroup row key={index}>
-                    <Label for="form-guest-fname" sm={3}>{answer.question}</Label>
-                    <Col sm={9}>
-                      <Input
-                        type="text"
-                        name="extra"
-                        placeholder={answer.question}
-                        value={answer.value}
-                        question={answer.question}
-                        questiontype={answer.type}
-                        onChange={this.handleInputChange}
-                      />
-                    </Col>
-                  </FormGroup>
-                  ))
-                }
+              </Row>
+            </Col>
+          </Row>
+          <Row id="work-intensity" noGutters>
+            <div className="title">
+              Work Intensity
+            </div>
+            <div className="graph-plot">
+              <div className="legend">
+                <ul>
+                  <li className="point-burn">Point Burn</li>
+                  <li className="point-remain">Point Remain</li>
+                  <li className="point-queue">Point Queue</li>
+                </ul>
               </div>
-            </CSSTransition>
-          </Form>
+              <XYPlot
+                xType="ordinal"
+                xDomain={['Periode 1', 'Periode 2', 'Periode 3', 'Periode 4']}
+                width={450}
+                height={150}>
+                <LineSeries
+                  id="point-burn"
+                  color="#45BFB7"
+                  data={dataPointBurn}
+                />
+                <LineSeries
+                  id="point-remain"
+                  color="#066493"
+                  data={dataPointRemain}
+                />
+                <LineSeries
+                  id="point-queue"
+                  color="#4E4DD1"
+                  data={dataPointQueue}
+                />
+                <XAxis position="start"/>
+                <YAxis left={50}/>
+              </XYPlot>
+            </div>
+          </Row>
         </ModalBody>
         <ModalFooter>
-          <button type="button" className="btn btn-secondary btn-reset" onClick={this.props.toggle}>
-            <span className="btn-icon">
-            </span>
-            Reset Data
-          </button>
-          <Button className="btn-save" disabled={isSubmitBtnDisabled} onClick={this.handleSubmitBtn} >Save</Button>
+          <div id="total-point">
+            Total Point&nbsp;&nbsp;&nbsp;&nbsp;{totalPoint}
+          </div>
+          <Button id="back-button" color="primary" onClick={this.props.toggle}>
+            BACK
+          </Button>
         </ModalFooter>
       </Modal>
     );

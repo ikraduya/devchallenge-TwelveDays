@@ -21,6 +21,14 @@
   font-size: 24px;
 }
 
+#team-page #project-card .card-title #project-select-input {
+  color: #53B9EC;
+}
+
+#team-page #project-card .card-title #project-select-input option {
+  color: initial;
+}
+
 /* Member Card */
 #team-page #member-card {
   background-color: #f5f7fa;
@@ -44,7 +52,7 @@
 
 #team-page #member-card #member-table th,
 #team-page #member-card #member-table td {
-  padding: 0;
+  padding: 3px;
 }
 
 /* Best Talent Card */
@@ -65,5 +73,115 @@
 
 #team-page #best-talent-card #best-talent-table th,
 #team-page #best-talent-card #best-talent-table td {
+  padding: 3px;
+}
+
+#team-page #best-talent-card #best-talent-table td.talent-name {
+  color: #71C5EF;
+}
+
+/* Talent Modal */
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 600px;
+  }
+}
+
+.talent-modal {
+  color: #59616E;
+}
+
+.talent-modal .modal-body {
   padding: 0;
+}
+
+.talent-modal #profile-pic {
+  background-image: url("../../assets/profile.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 200px;
+}
+
+.talent-modal #info {
+  padding: 18px 28px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.talent-modal #printed-info {
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.talent-modal #star {
+  font-size: 35px;
+}
+
+.talent-modal #work-intensity {
+  padding: 0 20px;
+}
+
+.talent-modal #work-intensity .title {
+  font-size: 22px;
+}
+
+.talent-modal #work-intensity .graph-plot {
+  display: flex;
+}
+
+.talent-modal #work-intensity .graph-plot .legend {
+  font-size: 10pt;
+  display: flex;
+  align-items: center;
+  line-height: 2;
+  font-weight: bold;
+}
+
+.talent-modal #work-intensity .graph-plot ul {
+  padding-left: 0;
+}
+
+.talent-modal #work-intensity .graph-plot ul li {
+  list-style: none; 
+}
+
+.talent-modal #work-intensity .graph-plot ul li::before {
+  content: "\25A0"; 
+  font-size: 1em; 
+  padding-right: 0.5em; 
+  position: relative;
+  top: 0em; 
+}
+
+.talent-modal #work-intensity .graph-plot ul li.point-burn {
+  color: #45BFB7;
+}
+.talent-modal #work-intensity .graph-plot ul li.point-remain {
+  color: #066493;
+}
+.talent-modal #work-intensity .graph-plot ul li.point-queue {
+  color: #4E4DD1;
+}
+
+.talent-modal .modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.talent-modal .modal-footer #total-point {
+  font-size: 18pt;
+}
+
+/* Helper */
+.text-center {
+  text-align: center;
+}
+
+/* Table Style */
+table, thead, tr, th, tbody, td {
+  border: 1px solid !important;
+  border-color: #E4E8F0 !important;
+  background-color: #ffffff;
 }
