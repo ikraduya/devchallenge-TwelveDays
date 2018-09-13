@@ -1,20 +1,86 @@
 /* Project page style */
-#project-page #que-all-project-card {
-  height: auto;
-  width: 100%;
+
+/* Color Scheme */
+a {
+  color: #53B9EC;
 }
 
-#project-page #best-product-card {
-  height: 1024px;
-  width: 100%;
+h3 {
+  color: #59616E;
 }
 
-#project-page #best-squad-card {
-  height: 1024px;
-  width: 100%;
+td {
+  color: #59616E;
 }
 
-#project-page #talent-card {
-  height: 1024px;
+th {
+  color: #59616E;
+}
+
+p {
+  color: #59616E;
+}
+
+/* Padding */
+#project-page-wrapper {
+  padding: 20px;
+}
+
+#project-page {
+  height: 100%;
   width: 100%;
+  padding: 20px;
+  background-color: white;
+}
+
+/* Table */
+.number-col{
+  text-align: center;
+}
+
+.status-complete {
+  color: #70CB94;
+}
+
+.information {
+  float: right;
+}
+
+.status-icon {
+  width: 18px;
+  height: 15px;
+}
+
+/* Bottom Grid */
+.grid-container {
+  margin-top: 20px;
+  display: grid;
+  grid: auto / 33% 33% 31%;
+  grid-gap: 15px;
+}
+
+.grid-container h5 {
+  color: #59616E;
+}
+
+.grid-container>div {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding:24px;
+}
+
+.grid-title {
+  margin-bottom: 15px;
+}
+
+.more-button{
+  width: 35%;
+  height: 35%;
+  float: right;
+}
+
+.more-button-center{
+  width: 85%;
+  height: 85%;
+  float: center;
+  margin-bottom: 30px;
 }
