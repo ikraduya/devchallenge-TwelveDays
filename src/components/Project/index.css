@@ -42,6 +42,18 @@ p {
   color: #70CB94;
 }
 
+.status-rejected {
+  color: #F55151;
+}
+
+.status-ongoing {
+  color: #FCD148;
+}
+
+.status-inqueue {
+  color: #59616E;
+}
+
 .information {
   float: right;
 }
@@ -73,14 +85,13 @@ p {
 }
 
 .more-button{
-  width: 35%;
-  height: 35%;
+  width: 100px;
+  height: 50px;
   float: right;
 }
 
 .more-button-center{
-  width: 85%;
-  height: 85%;
+  width: 100px;
+  height: 50px;
   float: center;
-  margin-bottom: 30px;
 }
