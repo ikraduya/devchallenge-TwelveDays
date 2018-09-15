@@ -34,6 +34,10 @@ p {
 }
 
 /* Table */
+.hidden{
+  display: none;
+}
+
 .number-col{
   text-align: center;
 }
