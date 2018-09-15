@@ -1,16 +1,237 @@
 /* Team page style */
-
-#calendar-page #date-card {
-    height: 350px;
-    width: 100%;
+#calendar-page {
+  padding: 21px 34px;
 }
 
 #calendar-page #notes-card {
-  height: 350px;
-  width: 100%;
+  height: 200px;
 }
 
 #calendar-page #event-card {
-  height: 350px;
+  height: 200px;
+}
+
+/* Calendar Style */
+#date-card {
+  background-color: #fff;
+  padding: 0;
+  height: auto;
+}
+
+#date-card #card-title {
+  text-align: left;
+  font-size: 24px;
+  padding: 8px 16px 6px 18px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.rc-calendar {
   width: 100%;
+  border-top: 0;
+}
+
+.rc-calendar-date {
+  border-radius: 50%;
+}
+
+.rc-calendar-my-select {
+  color: #3fc7fa;
+}
+
+.rc-calendar-today .rc-calendar-date {
+  border-radius: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 3px solid #3fc7fa;
+  background: #fff;
+  color: #666;
+}
+
+.rc-calendar-today .rc-calendar-date:hover {
+  background: #ebfaff;
+  cursor: pointer;
+}
+
+.rc-calendar-today.rc-calendar-selected-day .rc-calendar-date {
+  background: #3fc7fa;
+  color: #fff;
+}
+
+.rc-calendar-next-month-btn,
+.rc-calendar-prev-month-btn {
+  font-size: 30px;
+}
+
+.rc-calendar-prev-month-btn {
+  margin-left: -10px;
+}
+
+.rc-calendar-next-month-btn {
+  margin-right: -10px;
+}
+
+.rc-calendar-next-year-btn,
+.rc-calendar-prev-year-btn {
+  visibility: hidden;
+  width: 0;
+  padding: 0;
+}
+
+td .rc-calendar-date:after {
+  position:absolute;
+  top:-8px;
+  right:-8px;
+  font-size:.8em;
+  background:#F55150;
+  color:white;
+  width:16px;height:16px;
+  text-align:center;
+  line-height:18px;
+  border-radius:50%;
+  box-shadow:0 0 1px #333;
+}
+
+.rc-calendar-table tr {
+  border: none;
+}
+
+/* Notes and Event card */
+#notes-and-event-card {
+  background-color: #fff;
+  height: 305px;
+}
+
+#notes-and-event-card #notes {
+  height: 125px;
+  box-shadow:0 0 1px #333;
+  border-radius: 3px;
+}
+
+#notes #notes-title {
+  padding: 14px 4px 0px 4px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #71C5EF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#notes #notes-title button {
+  background-color: #71C5EF;
+  border: 0;
+  width: 95px;
+}
+
+#notes #notes-input textarea {
+  padding-left: 5px;
+  border: none;
+  overflow: auto;
+  outline: none;
+  box-shadow: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+
+#notes-and-event-card #event {
+  height: 180px;
+  box-shadow:0 0 1px #333;
+  border-radius: 3px;
+}
+
+#event {
+  padding: 0;
+}
+
+#event .container {
+  height: 144px;
+  overflow: auto;
+  border-top: 1px solid #ccc;
+}
+
+#event #event-title {
+  padding: 10px 4px 0px 14px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+#event .event-desc {
+  border-bottom: 1px solid #ccc;
+}
+
+#event .event-desc > .col-md-3 {
+  padding: 0;
+}
+
+#event .event-desc .minute-notif {
+  font-size: 0.75rem;
+  background-color: #F55150;
+  color: #fff;
+  text-align: left;
+  line-height: 22px;
+  padding-left: 14px;
+}
+
+#event .date-desc {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 14px 0px 14px 4px;
+}
+
+#event .date-desc .notif-count {
+  font-size: .8em;
+  background: #F55150;
+  color: white;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 22px;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 0 1px #333;
+  box-shadow: 0 0 1px #333;
+}
+
+#event .date-desc .month,
+#event .date-desc .hour {
+  font-size: 0.9rem;
+  margin-bottom: -6px;
+}
+
+#event .notes-desc {
+  border-left: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#event .notes-desc {
+  padding: 6px 6px;
+  font-size: 0.9rem;
+}
+
+#event .notes-desc .notes-footer .location {
+  display: flex;
+  align-items: center;
+}
+
+#event .notes-desc .notes-footer .location .icon {
+  margin-right: 6px;
+  color: #53b9ec;
+}
+
+#event .notes-desc .notes-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#event .notes-desc .notes-footer .see-more-btn {
+  width: fit-content;
+  font-size: 0.9rem;
+  padding: initial;
+  margin-right: 4px;
 }

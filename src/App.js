@@ -12,7 +12,7 @@ import './App.css';
 const componentList = {
   'Team': import('./components/Team'),
   'Project': import('./components/Project'),
-  'Kalender': import('./components/Calendar'),
+  'Calendar': import('./components/Calendar'),
   'NoMatch': import('./components/NoMatch'),
 };
 
@@ -23,7 +23,7 @@ const setUpLoadable = (component) => Loadable({
 
 const Team = setUpLoadable('Team');
 const Project = setUpLoadable('Project');
-const Kalender = setUpLoadable('Kalender');
+const Calendar = setUpLoadable('Calendar');
 const NoMatch = setUpLoadable('NoMatch');
 
 const App = () => (
@@ -33,7 +33,7 @@ const App = () => (
         <Layout navbar exact path="/" component={Project} />
         <Layout navbar exact path="/project" component={Project} />
         <Layout navbar exact path="/team" component={Team} />
-        <Layout navbar exact path="/calendar" component={Kalender} />
+        <Layout navbar exact path="/calendar" component={Calendar} />
         <Layout navbar exact path="/404" component={NoMatch} />
         <Layout navbar exact component={NoMatch} />
       </RouteWrapper>
