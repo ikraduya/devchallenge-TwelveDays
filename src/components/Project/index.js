@@ -28,8 +28,8 @@ class Project extends React.PureComponent {
     this.state = {
       productLimit : 5,
       squadLimit: 5,
-      floatingLimit: 5,
-      vacantLimit: 5,
+      floatingLimit: 4,
+      vacantLimit: 4,
       showComment: false,
       openedProject: 0,
       commentModal: false,
