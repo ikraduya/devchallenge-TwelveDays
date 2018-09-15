@@ -26,14 +26,14 @@ class Team extends React.PureComponent {
         {
           title: "My Indihome Consumen",
           desc: "This is sample description about project",
-          stackHolder: "DEGM",
+          stakeholder: "DEGM",
           sprintNow: 4,
           startDate: "12/06/2018",
           endDate: "22/06/2018",
           memberList: [
             {
               id: 1,
-              nama: "Budi Artianto",
+              name: "Budi Artianto",
               stream: "Backend",
               pointBurnHist: [0, 100, 110, 101],
               pointRemainingHist: [0, 100, 20, 30],
@@ -42,7 +42,7 @@ class Team extends React.PureComponent {
             },
             {
               id: 2,
-              nama: "Tono Budiman",
+              name: "Tono Budiman",
               stream: "Backend",
               pointBurnHist: [0, 100, 110, 102],
               pointRemainingHist: [0, 10, 20, 30],
@@ -51,7 +51,7 @@ class Team extends React.PureComponent {
             },
             {
               id: 3,
-              nama: "Wawan Aja",
+              name: "Wawan Aja",
               stream: "Frontend",
               pointBurnHist: [0, 100, 110, 0],
               pointRemainingHist: [0, 10, 20, 30],
@@ -60,7 +60,7 @@ class Team extends React.PureComponent {
             },
             {
               id: 4,
-              nama: "HEHE Aja",
+              name: "HEHE Aja",
               stream: "Frontend",
               pointBurnHist: [0, 100, 110, 105],
               pointRemainingHist: [0, 10, 20, 30],
@@ -69,7 +69,7 @@ class Team extends React.PureComponent {
             },
             {
               id: 5,
-              nama: "KWEK Aja",
+              name: "KWEK Aja",
               stream: "Frontend",
               pointBurnHist: [0, 100, 110, 105],
               pointRemainingHist: [0, 10, 20, 30],
@@ -81,14 +81,14 @@ class Team extends React.PureComponent {
         {
           title: "My Indihome Consumen2",
           desc: "This is sample description about project2",
-          stackHolder: "DEGM2",
+          stakeholder: "DEGM2",
           sprintNow: 4,
           startDate: "12/06/2018",
           endDate: "22/06/2018",
           memberList: [
             {
               id: 1,
-              nama: "Budi Artianto2",
+              name: "Budi Artianto2",
               stream: "Backend2",
               pointBurnHist: [0, 100, 110, 105],
               pointRemainingHist: [0, 10, 20, 30],
@@ -97,7 +97,7 @@ class Team extends React.PureComponent {
             },
             {
               id: 2,
-              nama: "Tono Budiman2",
+              name: "Tono Budiman2",
               stream: "Backend2",
               pointBurnHist: [0, 100, 110, 105],
               pointRemainingHist: [0, 10, 20, 30],
@@ -106,7 +106,7 @@ class Team extends React.PureComponent {
             },
             {
               id: 3,
-              nama: "Wawan Aja2",
+              name: "Wawan Aja2",
               stream: "Frontend2",
               pointBurnHist: [0, 100, 110, 105],
               pointRemainingHist: [0, 10, 20, 30],
@@ -115,7 +115,7 @@ class Team extends React.PureComponent {
             },
             {
               id: 4,
-              nama: "HEHE Aja2",
+              name: "HEHE Aja2",
               stream: "Frontend2",
               pointBurnHist: [0, 100, 110, 105],
               pointRemainingHist: [0, 10, 20, 30],
@@ -124,7 +124,7 @@ class Team extends React.PureComponent {
             },
             {
               id: 5,
-              nama: "KWEK Aja2",
+              name: "KWEK Aja2",
               stream: "Frontend2",
               pointBurnHist: [0, 100, 110, 105],
               pointRemainingHist: [0, 10, 20, 30],
@@ -209,7 +209,7 @@ class Team extends React.PureComponent {
       return memberList.map((member, index) => (
         <tr key={index}>
           <td className="text-center" ><span>{index + 1}</span></td>
-          <td><span>{member.nama}</span></td>
+          <td><span>{member.name}</span></td>
           <td><span>{member.stream}</span></td>
         </tr>
       ));
@@ -238,7 +238,7 @@ class Team extends React.PureComponent {
       return sortedMemberList.map((member, index) => (
         <tr key={index}>
           <td className="text-center"><span>{index + 1}</span></td>
-          <td className="talent-name"><a href="" onClick={e => this.handleTalentNameClick(e, member.id)}><span>{member.nama}</span></a></td>
+          <td className="talent-name"><a href="" onClick={e => this.handleTalentNameClick(e, member.id)}><span>{member.name}</span></a></td>
           <td><span>{member.stream}</span></td>
           <td className="text-center"><span>{member.pointBurnHist[3]}</span></td>
           <td className="text-center"><span>{member.pointRemainingHist[3]}</span></td>
@@ -252,7 +252,7 @@ class Team extends React.PureComponent {
 
   render() {
     const {
-      title: titleProject, desc, stackHolder, sprintNow, startDate, endDate,
+      title: titleProject, desc, stakeholder, sprintNow, startDate, endDate,
     } = this.state.selectedProject;
     const { projectList, selectedTalent, isModalOpen } = this.state;
 
@@ -283,7 +283,7 @@ class Team extends React.PureComponent {
             <Row style={{marginBottom: "0.75rem"}}>
               <Col>
                 <div>Description  : {desc}</div>
-                <div>Stack holder : {stackHolder}</div>
+                <div>Stack holder : {stakeholder}</div>
                 <div>Sprint Now   : {sprintNow}</div>
               </Col>
             </Row>

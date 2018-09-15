@@ -20,6 +20,7 @@ class Project extends React.PureComponent {
     this.handleMoreVacant = this.handleMoreVacant.bind(this);
     this.handleCompleteStatus = this.handleCompleteStatus.bind(this);
     this.handleCommentChange = this.handleCommentChange.bind(this);
+    this.handleStatusCommentChange = this.handleStatusCommentChange.bind(this);
     this.handleRejectedStatus = this.handleRejectedStatus.bind(this);
     this.handleOngoingStatus = this.handleOngoingStatus.bind(this);
     this.handleInqueueStatus = this.handleInqueueStatus.bind(this);
@@ -36,7 +37,7 @@ class Project extends React.PureComponent {
       statusModal: false,
       projects : [
         {
-          name: "Teman Sejati", 
+          title: "Teman Sejati", 
           desc: "",
           unit: "TNT",
           stakeholder: "TNT",
@@ -45,7 +46,7 @@ class Project extends React.PureComponent {
           comment: ""
         },
         {
-          name: "Teman Hidup", 
+          title: "Teman Hidup", 
           desc: "",
           unit: "TNT",
           stakeholder: "TNT",
@@ -54,7 +55,7 @@ class Project extends React.PureComponent {
           comment: ""
         },
         {
-          name: "Teman Berbagi", 
+          title: "Teman Berbagi", 
           desc: "",
           unit: "TNT",
           stakeholder: "TNT",
@@ -63,7 +64,7 @@ class Project extends React.PureComponent {
           comment: ""
         },
         {
-          name: "MyIndihome", 
+          title: "MyIndihome", 
           desc: "",
           unit: "Consumer",
           stakeholder: "Consumer",
@@ -72,7 +73,7 @@ class Project extends React.PureComponent {
           comment: ""
         },
         {
-          name: "Bulir", 
+          title: "Bulir", 
           desc: "",
           unit: "TNT",
           stakeholder: "TNT",
@@ -81,7 +82,7 @@ class Project extends React.PureComponent {
           comment: ""
         },
         {
-          name: "Dashboard Clap", 
+          title: "Dashboard Clap", 
           desc: "",
           unit: "Consumer",
           stakeholder: "Consumer",
@@ -194,7 +195,7 @@ class Project extends React.PureComponent {
     });
   }
 
-  handleCommentChange(e){
+  handleCommentChange(e){    
     const idx = parseInt(e.target.alt);    
     const newProj = this.state.projects.slice();
     newProj[this.state.openedProject].desc = e.target.value;
@@ -204,9 +205,18 @@ class Project extends React.PureComponent {
     })
   }
 
+  handleStatusCommentChange(e){
+    const idx = parseInt(e.target.alt);    
+    const newProj = this.state.projects.slice();
+    newProj[this.state.openedProject].comment = e.target.value;
+
+    this.setState({
+      projects: newProj
+    })
+  }
+
   toggleCommentModal(e) {
     const idx = parseInt(e.target.value);
-
     if (e.target.value !== undefined){
       this.setState({
         openedProject: idx,
@@ -291,7 +301,6 @@ class Project extends React.PureComponent {
             <tbody>
                 {/* Project Comment Modal */}
                 <Modal isOpen={this.state.commentModal} toggle={this.toggleCommentModal} className={this.props.className}>
-                  {/* <ModalHeader toggle={this.toggleStatusChangeModal}>Change {projects[openedProject].name} Status</ModalHeader> */}
                   <ModalBody>
                     <h3>Comment</h3>
                     {/* Comment Section */}
@@ -303,7 +312,7 @@ class Project extends React.PureComponent {
                 </Modal>
                 {/* Status Change Modal */}
                 <Modal isOpen={this.state.statusModal} toggle={this.toggleStatusChangeModal} className={this.props.className}>
-                  <ModalHeader toggle={this.toggleStatusChangeModal}>Change {projects[openedProject].name} Status</ModalHeader>
+                  <ModalHeader toggle={this.toggleStatusChangeModal}>Change {projects[openedProject].title} Status</ModalHeader>
                   <ModalBody>
                   <ButtonGroup>
                     <Button color={(projects[openedProject].status == "Complete" ? 'primary' : 'secondary')} onClick={this.handleCompleteStatus}>Complete</Button>
@@ -315,7 +324,7 @@ class Project extends React.PureComponent {
                   <ToggleDisplay show={this.state.showComment}>
                     <p></p>
                     <h3>Comment</h3>
-                    <Input type="textarea" name="text" id="exampleText" placeholder="Add comment here..."/>
+                    <Input type="textarea" name="text" id="exampleText" onChange={this.handleStatusCommentChange} laceholder="Add comment here..." value={projects[this.state.openedProject].comment}/>
                   </ToggleDisplay>
                   </ModalBody>
                   <ModalFooter>
@@ -328,7 +337,7 @@ class Project extends React.PureComponent {
                       return(
                         <tr>
                           <td className="number-col">{index+1}</td>
-                          <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.name}</Button></td>
+                          <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.title}</Button></td>
                           <td>{project.unit}</td>
                           <td>{project.stakeholder}</td>
                           <td className="number-col">{project.sprint}</td>  
@@ -339,7 +348,7 @@ class Project extends React.PureComponent {
                       return(
                         <tr>
                           <td className="number-col">{index+1}</td>
-                          <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.name}</Button></td>
+                          <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.title}</Button></td>
                           <td>{project.unit}</td>
                           <td>{project.stakeholder}</td>
                           <td className="number-col">{project.sprint}</td>  
@@ -350,7 +359,7 @@ class Project extends React.PureComponent {
                         return(
                           <tr>
                             <td className="number-col">{index+1}</td>
-                            <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.name}</Button></td>
+                            <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.title}</Button></td>
                             <td>{project.unit}</td>
                             <td>{project.stakeholder}</td>
                             <td className="number-col">{project.sprint}</td>  
@@ -361,7 +370,7 @@ class Project extends React.PureComponent {
                           return(
                             <tr>
                               <td className="number-col">{index+1}</td>
-                              <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.name}</Button></td>
+                              <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.title}</Button></td>
                               <td>{project.unit}</td>
                               <td>{project.stakeholder}</td>
                               <td className="number-col">{project.sprint}</td>  
@@ -382,11 +391,11 @@ class Project extends React.PureComponent {
                 if (index < this.state.productLimit){
                   if (product.diff >= 0)
                     return(
-                      <p>{index+1}. {product.name}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
+                      <p>{index+1}. {product.title}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
                     )
                   else
                     return(
-                      <p>{index+1}. {product.name}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
+                      <p>{index+1}. {product.title}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
                     )
                 }
               })
@@ -400,11 +409,11 @@ class Project extends React.PureComponent {
                 if (index < this.state.squadLimit){
                   if (product.diff > 0)
                     return(
-                      <p>{index+1}. Squad {index} - {product.name}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
+                      <p>{index+1}. Squad {index} - {product.title}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
                     )
                   else
                     return(
-                      <p>{index+1}. Squad {index} - {product.name}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
+                      <p>{index+1}. Squad {index} - {product.title}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
                     )
                 }
               })
