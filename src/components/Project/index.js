@@ -328,7 +328,7 @@ class Project extends React.PureComponent {
                       return(
                         <tr>
                           <td className="number-col">{index+1}</td>
-                          <Button value={index} color="link" onClick={this.toggleCommentModal}>{project.name}</Button>
+                          <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.name}</Button></td>
                           <td>{project.unit}</td>
                           <td>{project.stakeholder}</td>
                           <td className="number-col">{project.sprint}</td>  
@@ -339,7 +339,7 @@ class Project extends React.PureComponent {
                       return(
                         <tr>
                           <td className="number-col">{index+1}</td>
-                          <Button value={index} color="link" onClick={this.toggleCommentModal}>{project.name}</Button>
+                          <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.name}</Button></td>
                           <td>{project.unit}</td>
                           <td>{project.stakeholder}</td>
                           <td className="number-col">{project.sprint}</td>  
@@ -350,7 +350,7 @@ class Project extends React.PureComponent {
                         return(
                           <tr>
                             <td className="number-col">{index+1}</td>
-                            <Button value={index} color="link" onClick={this.toggleCommentModal}>{project.name}</Button>
+                            <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.name}</Button></td>
                             <td>{project.unit}</td>
                             <td>{project.stakeholder}</td>
                             <td className="number-col">{project.sprint}</td>  
@@ -361,7 +361,7 @@ class Project extends React.PureComponent {
                           return(
                             <tr>
                               <td className="number-col">{index+1}</td>
-                              <Button value={index} color="link" onClick={this.toggleCommentModal}>{project.name}</Button>
+                              <td><Button value={index} color="link" className="link-button" onClick={this.toggleCommentModal}>{project.name}</Button></td>
                               <td>{project.unit}</td>
                               <td>{project.stakeholder}</td>
                               <td className="number-col">{project.sprint}</td>  
