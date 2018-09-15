@@ -144,7 +144,6 @@ class Team extends React.PureComponent {
 
   componentDidMount() {
     const { projectList } = this.state;
-    console.log("sudah kepanggil");
     if (projectList.length > 0) {
       this.setState({
         selectedProject: projectList[0],

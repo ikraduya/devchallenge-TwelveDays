@@ -174,13 +174,18 @@
   font-size: 18pt;
 }
 
+.talent-modal .modal-footer #back-button {
+  background-color: #71C5EF;
+  border: 0;
+}
+
 /* Helper */
 .text-center {
   text-align: center;
 }
 
 /* Table Style */
-table, thead, tr, th, tbody, td {
+#team-page table, #team-page thead, #team-page tr, #team-page th, #team-page tbody, #team-page td {
   border: 1px solid !important;
   border-color: #E4E8F0 !important;
   background-color: #ffffff;
