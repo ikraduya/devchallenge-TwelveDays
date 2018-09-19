@@ -118,37 +118,45 @@ class Project extends React.PureComponent {
         },
         
       ],
-      products:[ //Already sorted by rank
+      products:[ 
         {
           name: "MyNation",
+          rank: 1,
           diff: 0
         },
         {
           name: "YourLyfe",
+          rank: 2,
           diff: 0
         },
         {
           name: "BUMN",
+          rank: 3,
           diff: 2
         },
         {
           name: "MyIndihome",
+          rank: 4,
           diff: 3
         },
         {
           name: "Sobat BUMN",
+          rank: 5,
           diff: -1
         },
         {
           name: "Open Trip",
+          rank: 6,
           diff: -2
         },
         {
           name: "ODP Hunter",
+          rank: 7,
           diff: 5
         },
         {
           name: "SIIS",
+          rank: 8,
           diff: 6
         }
       ]
@@ -391,11 +399,11 @@ class Project extends React.PureComponent {
                 if (index < this.state.productLimit){
                   if (product.diff >= 0)
                     return(
-                      <p>{index+1}. {product.title}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
+                      <p>{product.rank}. {product.title}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
                     )
                   else
                     return(
-                      <p>{index+1}. {product.title}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
+                      <p>{product.rank}. {product.title}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
                     )
                 }
               })
