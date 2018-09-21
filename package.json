@@ -1,10 +1,10 @@
 {
-  "name": "telkom-codex-front",
+  "name": "devchallenge-TwelveDays",
   "version": "0.1.0",
   "description": "Telkom Codex Frontend",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ikraduya/telkom-codex-front.git"
+    "url": "https://github.com/ikraduya/devchallenge-TwelveDays-frontend.git"
   },
   "private": true,
   "author": "Ikraduya Edian, Rifo A. Genadi",
