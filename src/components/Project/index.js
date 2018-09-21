@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Row, Col } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { Input, ButtonGroup, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -7,6 +8,7 @@ import blueStatus from '../../assets/triangle-down-blue.svg';
 import downStatus from '../../assets/triangle-down.svg';
 import upStatus from '../../assets/triangle-up.svg';
 import moreButton from '../../assets/more-button.svg';
+
 
 import './index.css';
 
@@ -35,132 +37,52 @@ class Project extends React.PureComponent {
       openedProject: 0,
       commentModal: false,
       statusModal: false,
-      projects : [
-        {
-          title: "Teman Sejati", 
-          desc: "",
-          unit: "TNT",
-          stakeholder: "TNT",
-          sprint: 15,
-          status: "Complete",
-          comment: ""
-        },
-        {
-          title: "Teman Hidup", 
-          desc: "",
-          unit: "TNT",
-          stakeholder: "TNT",
-          sprint: 15,
-          status: "Complete",
-          comment: ""
-        },
-        {
-          title: "Teman Berbagi", 
-          desc: "",
-          unit: "TNT",
-          stakeholder: "TNT",
-          sprint: 15,
-          status: "Complete",
-          comment: ""
-        },
-        {
-          title: "MyIndihome", 
-          desc: "",
-          unit: "Consumer",
-          stakeholder: "Consumer",
-          sprint: 12,
-          status: "Rejected",
-          comment: ""
-        },
-        {
-          title: "Bulir", 
-          desc: "",
-          unit: "TNT",
-          stakeholder: "TNT",
-          sprint: 15,
-          status: "On Going",
-          comment: ""
-        },
-        {
-          title: "Dashboard Clap", 
-          desc: "",
-          unit: "Consumer",
-          stakeholder: "Consumer",
-          sprint: 12,
-          status: "In Queue",
-          comment: ""
-        },
-      ],
-      talents:[
-        {
-          role: "UX",
-          number: {vacant: 1, floating: 1}
-        },
-        {
-          role: "FE",
-          number: {vacant: 0, floating: 2}
-        },
-        {
-          role: "BE",
-          number: {vacant: 1, floating: 2}
-        },
-        {
-          role: "MOBILE",
-          number: {vacant: 1, floating:2}
-        },
-        {
-          role: "EO",
-          number: {vacant: 1, floating:2}
-        },
-        {
-          role: "UI",
-          number: {vacant: 1, floating:2}
-        },
-        
-      ],
-      products:[ 
-        {
-          name: "MyNation",
-          rank: 1,
-          diff: 0
-        },
-        {
-          name: "YourLyfe",
-          rank: 2,
-          diff: 0
-        },
-        {
-          name: "BUMN",
-          rank: 3,
-          diff: 2
-        },
-        {
-          name: "MyIndihome",
-          rank: 4,
-          diff: 3
-        },
-        {
-          name: "Sobat BUMN",
-          rank: 5,
-          diff: -1
-        },
-        {
-          name: "Open Trip",
-          rank: 6,
-          diff: -2
-        },
-        {
-          name: "ODP Hunter",
-          rank: 7,
-          diff: 5
-        },
-        {
-          name: "SIIS",
-          rank: 8,
-          diff: 6
+      projects : [{}],
+      talents:[{
+        role : "UX",
+        number :{
+          vacant: 1,
+          floating: 2
         }
-      ]
+      }],
+      products: []
     }
+  }
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData() {
+    axios.get('api/project/projects')
+      .then(({ data }) => {
+        this.setState({
+          projects: data.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios.get('api/product/products')
+    .then(({ data }) => {
+      this.setState({
+        products: data.data,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    axios.get('api/talent/talents')
+    .then(({ data }) => {
+      this.setState({
+        talents: data.data,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   handleCompleteStatus() {
@@ -399,11 +321,11 @@ class Project extends React.PureComponent {
                 if (index < this.state.productLimit){
                   if (product.diff >= 0)
                     return(
-                      <p>{product.rank}. {product.title}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
+                      <p>{product.rank}. {product.name}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
                     )
                   else
                     return(
-                      <p>{product.rank}. {product.title}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
+                      <p>{product.rank}. {product.name}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
                     )
                 }
               })
@@ -415,13 +337,13 @@ class Project extends React.PureComponent {
             { 
               products.map((product, index) => {
                 if (index < this.state.squadLimit){
-                  if (product.diff > 0)
+                  if (product.diff >= 0)
                     return(
-                      <p>{index+1}. Squad {index} - {product.title}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
+                      <p>{index+1}. Squad {index} - {product.name}<span className="information"><img className="status-icon" src={upStatus}></img>&nbsp;&nbsp;{product.diff}</span></p>
                     )
                   else
                     return(
-                      <p>{index+1}. Squad {index} - {product.title}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
+                      <p>{index+1}. Squad {index} - {product.name}<span className="information"><img className="status-icon" src={downStatus}></img>&nbsp;&nbsp;{-1*product.diff}</span></p>
                     )
                 }
               })
