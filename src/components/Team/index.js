@@ -1,139 +1,23 @@
 import React from 'react';
 import {
-  Container,
   Row, 
   Col,
   Input,
   Table,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Card,
-  CardBody,
-  CardTitle,
 } from 'reactstrap';
-import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+import swal from 'sweetalert2';
+import moment from 'moment';
 
 import TalentModal from './TalentModal';
 import './index.css';
 
+const timeFormat = 'DD/MM/YYYY';
 class Team extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      projectList: [
-        {
-          title: "My Indihome Consumen",
-          desc: "This is sample description about project",
-          stakeholder: "DEGM",
-          sprintNow: 4,
-          startDate: "12/06/2018",
-          endDate: "22/06/2018",
-          memberList: [
-            {
-              id: 1,
-              name: "Budi Artianto",
-              stream: "Backend",
-              pointBurnHist: [0, 100, 110, 101],
-              pointRemainingHist: [0, 100, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 4,
-            },
-            {
-              id: 2,
-              name: "Tono Budiman",
-              stream: "Backend",
-              pointBurnHist: [0, 100, 110, 102],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 4,
-            },
-            {
-              id: 3,
-              name: "Wawan Aja",
-              stream: "Frontend",
-              pointBurnHist: [0, 100, 110, 0],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 4,
-            },
-            {
-              id: 4,
-              name: "HEHE Aja",
-              stream: "Frontend",
-              pointBurnHist: [0, 100, 110, 105],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 4,
-            },
-            {
-              id: 5,
-              name: "KWEK Aja",
-              stream: "Frontend",
-              pointBurnHist: [0, 100, 110, 105],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 4,
-            },
-          ]
-        },
-        {
-          title: "My Indihome Consumen2",
-          desc: "This is sample description about project2",
-          stakeholder: "DEGM2",
-          sprintNow: 4,
-          startDate: "12/06/2018",
-          endDate: "22/06/2018",
-          memberList: [
-            {
-              id: 1,
-              name: "Budi Artianto2",
-              stream: "Backend2",
-              pointBurnHist: [0, 100, 110, 105],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 4,
-            },
-            {
-              id: 2,
-              name: "Tono Budiman2",
-              stream: "Backend2",
-              pointBurnHist: [0, 100, 110, 105],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 4,
-            },
-            {
-              id: 3,
-              name: "Wawan Aja2",
-              stream: "Frontend2",
-              pointBurnHist: [0, 100, 110, 105],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 3,
-            },
-            {
-              id: 4,
-              name: "HEHE Aja2",
-              stream: "Frontend2",
-              pointBurnHist: [0, 100, 110, 105],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 0,
-            },
-            {
-              id: 5,
-              name: "KWEK Aja2",
-              stream: "Frontend2",
-              pointBurnHist: [0, 100, 110, 105],
-              pointRemainingHist: [0, 10, 20, 30],
-              pointQueueHist: [0, 20, 11, 30],
-              star: 2,
-            },
-          ]
-        },
-      ],
+      projectList: [],
       selectedProject: {},
       isModalOpen: false,
       selectedTalent: {},
@@ -143,12 +27,34 @@ class Team extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { projectList } = this.state;
-    if (projectList.length > 0) {
-      this.setState({
-        selectedProject: projectList[0],
+    axios.get('/api/project/projects')
+      .then(({ data: res }) => {
+        if (res.status === 'success') {
+          this.setState({
+            projectList: res.data || [],
+          }, () => {
+            const { projectList } = this.state;
+            if (projectList.length > 0) {
+              this.setState({
+                selectedProject: projectList[0],
+              });
+            }
+          });
+        } else {
+          swal({
+            type: 'error',
+            title: 'Oops...',
+            text: res.message,
+          });
+        }
+      })
+      .catch(() => {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: 'Could not contact the server',
+        });
       });
-    }
   }
 
   handleProjectChange(event) {
@@ -178,7 +84,7 @@ class Team extends React.PureComponent {
     event.preventDefault();
     console.log(selectedId);
     this.setState({
-      selectedTalent: (memberList.length > 0) ? memberList.find((member) => (member.id === selectedId)) : {},
+      selectedTalent: (memberList.length > 0) ? memberList.find((member) => (member._id === selectedId)) : {},
     }, () => {
       this.setState({
         isModalOpen: true,
@@ -238,7 +144,7 @@ class Team extends React.PureComponent {
       return sortedMemberList.map((member, index) => (
         <tr key={index}>
           <td className="text-center"><span>{index + 1}</span></td>
-          <td className="talent-name"><a href="" onClick={e => this.handleTalentNameClick(e, member.id)}><span>{member.name}</span></a></td>
+          <td className="talent-name"><a href="" onClick={e => this.handleTalentNameClick(e, member._id)}><span>{member.name}</span></a></td>
           <td><span>{member.stream}</span></td>
           <td className="text-center"><span>{member.pointBurnHist[3]}</span></td>
           <td className="text-center"><span>{member.pointRemainingHist[3]}</span></td>
@@ -252,9 +158,11 @@ class Team extends React.PureComponent {
 
   render() {
     const {
-      title: titleProject, desc, stakeholder, sprintNow, startDate, endDate,
+      title: titleProject, desc, stakeholder, sprint, startDate, endDate,
     } = this.state.selectedProject;
     const { projectList, selectedTalent, isModalOpen } = this.state;
+
+    const diffInDays = moment.duration(moment(endDate).diff(moment(startDate))).asDays();
 
     return (
       <div id="team-page">
@@ -280,18 +188,36 @@ class Team extends React.PureComponent {
                 </Input>
               </Col>
             </Row>
-            <Row style={{marginBottom: "0.75rem"}}>
-              <Col>
-                <div>Description  : {desc}</div>
-                <div>Stack holder : {stakeholder}</div>
-                <div>Sprint Now   : {sprintNow}</div>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <div>Start Date   : {startDate}</div>
-                <div>End holder   : {endDate}</div>
-              </Col>
+            <Row className="project-desc">
+              <table>
+                <tr>
+                  <td style={{width: "115px"}}>Description</td>
+                  <td>:</td>
+                  <td>{desc}</td>
+                </tr>
+                <tr>
+                  <td>Stack holder</td>
+                  <td>:</td>
+                  <td>{stakeholder}</td>
+                </tr>
+                <tr>
+                  <td>Sprint Now</td>
+                  <td>:</td>
+                  <td>{sprint}</td>
+                </tr>
+                <tr style={{fontSize: "0.4rem"}}><td>&nbsp;</td><td> </td><td ></td></tr>
+                <tr style={{fontSize: "0.9rem"}}>
+                  <td>Start Date</td>
+                  <td>:</td>
+                  <td>{moment(startDate).format(timeFormat)}</td>
+                </tr>
+                <tr style={{fontSize: "0.9rem"}}>
+                  <td>End Date</td>
+                  <td>:</td>
+                  <td>{moment(endDate).format(timeFormat)} ({diffInDays} hari lagi)</td>
+                </tr>
+                
+              </table>
             </Row>
           </Col>
 

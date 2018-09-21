@@ -25,7 +25,7 @@ class TalentModal extends Component {
     const {
       isOpen, toggle, className, selectedTalent,
     } = this.props;
-    const { nama, stream, star, pointBurnHist, pointRemainingHist, pointQueueHist } = selectedTalent;
+    const { name, stream, star, pointBurnHist, pointRemainingHist, pointQueueHist } = selectedTalent;
 
     let level = '';
     if (star === 0) {
@@ -58,7 +58,7 @@ class TalentModal extends Component {
             <Col id="info" col="7">
               <Row id="printed-info" noGutters>
                 <Col>
-                  <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {nama}</div>
+                  <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {name}</div>
                   <div>Stream&nbsp;&nbsp;&nbsp;: {stream}</div>
                   <div>Level&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {level}</div>
                 </Col>

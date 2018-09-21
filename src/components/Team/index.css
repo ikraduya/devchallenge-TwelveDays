@@ -29,6 +29,16 @@
   color: initial;
 }
 
+#team-page #project-card .project-desc {
+  padding-left: 15px;
+}
+
+#team-page .project-desc table, #team-page .project-desc thead,
+#team-page .project-desc tr, #team-page .project-desc th,
+#team-page .project-desc tbody, #team-page .project-desc td {
+  border: 0 !important;
+}
+
 /* Member Card */
 #team-page #member-card {
   background-color: #f5f7fa;

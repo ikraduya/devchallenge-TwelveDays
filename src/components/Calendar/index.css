@@ -3,14 +3,6 @@
   padding: 21px 34px;
 }
 
-#calendar-page #notes-card {
-  height: 200px;
-}
-
-#calendar-page #event-card {
-  height: 200px;
-}
-
 /* Calendar Style */
 #date-card {
   background-color: #fff;
@@ -19,6 +11,7 @@
 }
 
 #date-card #card-title {
+  box-shadow: 0 1px 5px #ccc;
   text-align: left;
   font-size: 24px;
   padding: 8px 16px 6px 18px;
@@ -29,6 +22,11 @@
 .rc-calendar {
   width: 100%;
   border-top: 0;
+}
+
+.rc-calendar .rc-calendar-body {
+  height: 300px;
+  font-size: 16px;
 }
 
 .rc-calendar-date {
@@ -59,6 +57,10 @@
   color: #fff;
 }
 
+.rc-calendar-year-select, .rc-calendar-month-select {
+  font-size: 17px;
+}
+
 .rc-calendar-next-month-btn,
 .rc-calendar-prev-month-btn {
   font-size: 30px;
@@ -79,6 +81,12 @@
   padding: 0;
 }
 
+.rc-calendar-date {
+  width: 32px;
+  height: 32px;
+  line-height: 34px;
+}
+
 td .rc-calendar-date:after {
   position:absolute;
   top:-8px;
@@ -93,6 +101,10 @@ td .rc-calendar-date:after {
   box-shadow:0 0 1px #333;
 }
 
+.rc-calendar-table {
+  height: 100%;
+}
+
 .rc-calendar-table tr {
   border: none;
 }
@@ -100,11 +112,12 @@ td .rc-calendar-date:after {
 /* Notes and Event card */
 #notes-and-event-card {
   background-color: #fff;
-  height: 305px;
+  height: 387px;
+  box-shadow: 0 1px 5px #ccc;
 }
 
 #notes-and-event-card #notes {
-  height: 125px;
+  height: 180px;
   box-shadow:0 0 1px #333;
   border-radius: 3px;
 }
@@ -131,13 +144,56 @@ td .rc-calendar-date:after {
   overflow: auto;
   outline: none;
   box-shadow: none;
+  height: 90px;
 
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
 }
 
+#notes #notes-input .notes-detail {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+#notes #notes-input .notes-detail .detail-col {
+  display: flex;
+  align-items: center;
+}
+
+#notes #notes-input .notes-detail .icon-style {
+  margin-right: 6px;
+  color: #71C5EF;
+  font-size: 20px;
+}
+
+#notes #notes-input .location-input {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
+  font-size: 15px;
+  padding: 0;
+  line-height: 1.6;
+  height: fit-content;
+}
+
+#notes #notes-input .time-input {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1.6;
+  height: fit-content;
+}
+
+#notes #notes-input .index-input {
+  line-height: 1.6;
+  height: fit-content;
+}
+
 #notes-and-event-card #event {
-  height: 180px;
+  height: 205px;
   box-shadow:0 0 1px #333;
   border-radius: 3px;
 }
@@ -147,14 +203,15 @@ td .rc-calendar-date:after {
 }
 
 #event .container {
-  height: 144px;
+  background-color: #fff;
+  height: 159.5px;
   overflow: auto;
   border-top: 1px solid #ccc;
 }
 
 #event #event-title {
   padding: 10px 4px 0px 14px;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 500;
 }
 

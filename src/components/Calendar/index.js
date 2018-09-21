@@ -3,59 +3,108 @@ import { Container, Row, Col, Button, Input } from 'reactstrap';
 import RcCalendar from 'rc-calendar';
 import { UniversalStyle as Style } from 'react-css-component';
 import moment, { months } from 'moment';
+import axios from 'axios';
 
-import { MdLocationOn } from 'react-icons/md/index';
+import { MdLocationOn, MdAccessTime, MdList } from 'react-icons/md/index';
 
 import 'rc-calendar/assets/index.css';
 import './index.css';
 
+const timeFormat = 'DD/MM/YYYY HH:mm:ss';
+const dateFormat = 'DD/MM/YYYY';
 class Calendar extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      eventList: [
-        { 
-          time:'15/09/2018 17:00:00',
-          notes: 'Bertemu dengan Pak Rudi di Bandara Halim membawa dokumen terkait projek.',
-          location: 'Bandara Halim Kusuma',
-          eventCount: 1,
-        },
-        { 
-          time:'17/09/2018 11:00:00',
-          notes: 'Bertemu dengan Pak Rudi di Bandara Halim membawa dokumen terkait projek.',
-          location: 'Bandara Halim Kusuma',
-          eventCount: 4,
-        },
-      ],
+      eventList: [],
       selectedDate: moment(),
       editedNotes: '',
+      editedLocation: '',
+      editedTime: '07:00',
+      editedIndex: '',
     }
-    this.handleSelect = this.handleSelect.bind(this);
+    this.handleSelectDate = this.handleSelectDate.bind(this);
+    this.handleClickEventList = this.handleClickEventList.bind(this);
+    this.changeNotesDayEdit = this.changeNotesDayEdit.bind(this);
+
+    this.handleLocationChange = this.handleLocationChange.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleIndexChange = this.handleIndexChange.bind(this);
+
     this.handleSaveNotesClick = this.handleSaveNotesClick.bind(this);
     this.createBadge = this.createBadge.bind(this);
     this.renderEventList = this.renderEventList.bind(this);
+    this.renderNotesIndexOption = this.renderNotesIndexOption.bind(this);
   }
 
   componentDidMount() {
-    const { selectedDate, eventList } = this.state;
-    const eventIdx = eventList.findIndex((eventElmt) => (selectedDate.isSame(moment(eventElmt.time, "DD/MM/YYYY HH:mm:ss"), 'day')));
+    // fetch data
+    axios.get('/api/calendar/events')
+      .then(({ data: res }) => {
+        if (res.status === 'success') {
+          this.setState({
+            eventList: res.data,
+          }, () => {
+            const { selectedDate, eventList } = this.state;
+            const eventIdx = eventList.findIndex((eventElmt) => (selectedDate.isSame(moment(eventElmt.date, dateFormat), 'day')));
+            
+            let editedNotes = '', editedLocation = '', editedTime = '07:00', editedIndex = '';
+            if (eventIdx !== -1) {
+              if (eventList[eventIdx].notesList.length > 0) {
+                editedNotes = eventList[eventIdx].notesList[0].notes;
+                editedLocation = eventList[eventIdx].notesList[0].location;
+                editedTime = eventList[eventIdx].notesList[0].time;
+                editedIndex = 1;
+              }
+            }
+            
+            this.setState({
+              editedNotes,
+              editedLocation,
+              editedTime,
+              editedIndex,
+            })
+          })
+        }
+      })
+  }
+
+  handleSelectDate(event) {
     this.setState({
-      editedNotes: (eventIdx !== -1) ? eventList[eventIdx].notes : '',
+      selectedDate: moment(event),
+    }, () => {
+      this.changeNotesDayEdit();
+    });
+  }
+
+  handleClickEventList(time) {
+    this.setState({
+      selectedDate: moment(time, 'DD/MM/YYYY'),
+    }, () => {
+      this.changeNotesDayEdit();
     })
   }
 
-  handleSelect(event) {
-    this.setState({
-      selectedDate: moment(event._d),
-    }, () => {
-      const { selectedDate, eventList } = this.state;
+  changeNotesDayEdit() {
+    const { selectedDate, eventList } = this.state;
+    const eventIdx = eventList.findIndex((eventElmt) => (selectedDate.isSame(moment(eventElmt.date, dateFormat), 'day')));
+    let editedNotes = '', editedLocation = '', editedTime = '07:00', editedIndex = '';
+    if (eventIdx !== -1) {
+      if (eventList[eventIdx].notesList.length > 0) {
+        editedNotes = eventList[eventIdx].notesList[0].notes;
+        editedLocation = eventList[eventIdx].notesList[0].location;
+        editedTime = moment(eventList[eventIdx].notesList[0].time, 'HH:mm:ss').format('HH:mm');
+        editedIndex = 1;
+      }
+    }
 
-      const eventIdx = eventList.findIndex((eventElmt) => (selectedDate.isSame(moment(eventElmt.time, "DD/MM/YYYY HH:mm:ss"), 'day')));
-      this.setState({
-        editedNotes: (eventIdx !== -1) ? eventList[eventIdx].notes : '',
-      })
-    });
+    this.setState({
+      editedNotes,
+      editedLocation,
+      editedTime,
+      editedIndex,
+    })
   }
 
   handleNotesChange(event) {
@@ -64,24 +113,78 @@ class Calendar extends React.PureComponent {
     });
   }
 
-  handleSaveNotesClick() {
-    const { selectedDate, eventList, editedNotes } =  this.state;
+  handleLocationChange(event) {
+    this.setState({
+      editedLocation: event.target.value,
+    });
+  }
 
-    const eventIdx = eventList.findIndex((event) => (selectedDate.isSame(moment(event.time, "DD/MM/YYYY HH:mm:ss"), 'day')));
+  handleTimeChange(event) {
+    this.setState({
+      editedTime: event.target.value,
+    });
+  }
+
+  handleIndexChange(event) {
+    const { selectedDate, eventList } = this.state;
+
+    const eventIdx = eventList.findIndex((event) => (selectedDate.isSame(moment(event.date, dateFormat), 'day')));
+    const idx = event.target.value - 1;
+    const { notes: editedNotes, location: editedLocation, time: editedTime } = this.state.eventList[eventIdx].notesList[idx];
+    this.setState({
+      editedNotes,
+      editedLocation,
+      editedTime,
+      editedIndex: event.target.value,
+    })
+  }
+
+  handleSaveNotesClick() {
+    const { selectedDate, eventList, editedNotes, editedLocation, editedTime, editedIndex } =  this.state;
+
+    const eventIdx = eventList.findIndex((event) => (selectedDate.isSame(moment(event.date, dateFormat), 'day')));
+    const momentedDate = moment(selectedDate, dateFormat);
+    const momentedTime = moment(editedTime ,'HH:mm:ss');
+    const settedTime = {
+      'hour': momentedTime.get('hour'),
+      'minute': momentedTime.get('minute'),
+      'second': momentedTime.get('second'),
+    };
+    
     if (eventIdx !== -1) {
-      eventList[eventIdx].notes = editedNotes;
+      eventList[eventIdx].notesList[editedIndex-1].notes = editedNotes;
+      eventList[eventIdx].notesList[editedIndex-1].location = editedLocation;
+      eventList[eventIdx].notesList[editedIndex-1].time = editedTime;
       this.setState({
         eventList: [...eventList],
+      }, () => {
+        const eventId = eventList[eventIdx].notesList[editedIndex-1].id;
+        axios.post('/api/calendar/events/update', {
+          eventId,
+          time: momentedDate.set(settedTime),
+          notes: editedNotes,
+          location: editedLocation,
+        })
       });
     } else {
       const newEvent = {
-        time: selectedDate.format('DD/MM/YYYY HH:mm:ss'),
-        notes: editedNotes,
-        location: '',
-        eventCount: 1,
+        date: selectedDate.format('DD/MM/YYYY'),
+        notesList: [
+          {
+            notes: editedNotes,
+            location: editedLocation,
+            time: editedTime,
+          }
+        ],
       };
       this.setState({
         eventList: [...eventList, newEvent],
+      }, () => {
+        axios.post('/api/calendar/events/create', {
+          time: momentedDate.set(settedTime),
+          notes: editedNotes,
+          location: editedLocation,
+        })
       });
     }
   }
@@ -93,7 +196,7 @@ class Calendar extends React.PureComponent {
     let dateContentSelector = '';
     let formattedDate;
     for (let i=0; i<eventList.length; i += 1) {
-      formattedDate = moment(eventList[i].time, "DD/MM/YYYY HH:mm:ss").format('MMMM D, YYYY');
+      formattedDate = moment(eventList[i].date, dateFormat).format('MMMM D, YYYY');
       dateSelector += `[title="${formattedDate}"] .rc-calendar-date`;
       if (i < eventList.length - 1) {
         dateSelector += ',';
@@ -102,7 +205,7 @@ class Calendar extends React.PureComponent {
       
       dateContentSelector += `
       [title="${formattedDate}"] .rc-calendar-date:after {
-        content: "${eventList[i].eventCount}";
+        content: "${(eventList[i].notesList) ? eventList[i].notesList.length : 0}";
       }
 
     `;
@@ -124,68 +227,84 @@ class Calendar extends React.PureComponent {
 
   renderEventList() {
     const { eventList, selectedDate } = this.state;
-    const mappedEvent = eventList ? eventList.sort((left, right) => (moment(left.time, "DD/MM/YYYY HH:mm:ss").diff(moment(right.time, "DD/MM/YYYY HH:mm:ss"))))
+    const mappedEvent = eventList ? eventList.sort((left, right) => (moment(left.date, dateFormat).diff(moment(right.date, dateFormat))))
       .map((event, index) => {
-        const { time, notes, location, eventCount } = event;
-        const momentedTime = moment(time, "DD/MM/YYYY HH:mm:ss");
-        const diffInMinute = moment.duration(momentedTime.diff(moment())).asMinutes();
+        let { date, notesList } = event;
+        let eventCount = notesList.length;
 
-        const inMinute = ((diffInMinute <= 60) && (diffInMinute >= 0)) ? `In ${Math.floor(diffInMinute)} min` : '';
-
-        const formattedDate = momentedTime.format("DD");
-        const formattedMonth = momentedTime.format("MM");
-        const formattedHour = momentedTime.format("h:mm A");
-
-        const isToday = selectedDate.isSame(momentedTime, 'day');
-        return (
-          <Row className="event-desc" key={index} style={{ color: isToday ? 'initial' : '#bbb' }}>
-            <Col md="3">
-              <div className="minute-notif">
-                {inMinute}
-              </div>
-              <div className="date-desc">
-                <div className="notif-count">
-                  {eventCount}
+        if (eventCount > 0) {
+          let { time, notes, location } = notesList[0];
+          let momentedDate = moment(date, dateFormat);
+          let momentedTime = moment(time, 'HH:mm:dd');
+          let diffInMinute = moment.duration(momentedTime.diff(moment())).asMinutes();
+  
+          let inMinute = ((diffInMinute <= 60) && (diffInMinute >= 0)) ? `In ${Math.floor(diffInMinute)} min` : '';
+  
+          let formattedDate = momentedDate.format("DD");
+          let formattedMonth = momentedDate.format("MM");
+          let formattedHour = momentedTime.format("h:mm A");
+  
+          let isToday = selectedDate.isSame(moment(date, dateFormat), 'day');
+          return (
+            <Row className="event-desc" key={index} style={{ color: isToday ? 'initial' : '#bbb' }}>
+              <Col md="3">
+                <div className="minute-notif">
+                  {inMinute}
                 </div>
-                <div>
-                  <div className="date">
-                    {formattedDate}
+                <div className="date-desc">
+                  <div className="notif-count">
+                    {eventCount}
                   </div>
-                  <div className="month">
-                    {formattedMonth}
-                  </div>
-                  <div className="hour">
-                    {formattedHour}
+                  <div>
+                    <div className="date">
+                      {formattedDate}
+                    </div>
+                    <div className="month">
+                      {formattedMonth}
+                    </div>
+                    <div className="hour">
+                      {formattedHour}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Col>
-            <Col className="notes-desc" md="9">
-              <div className="notes-body">
-                {notes}
-              </div>
-              <div className="notes-footer">
-                <div className="location">
-                  <div className="icon" style={{ color: isToday ? '' : '#bbb' }}>
-                    <MdLocationOn />
-                  </div>
-                  {location}
+              </Col>
+              <Col className="notes-desc" md="9">
+                <div className="notes-body">
+                  {notes}
                 </div>
-                <Button color="link" className="see-more-btn">
-                  SEE MORE
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        );
+                <div className="notes-footer">
+                  <div className="location">
+                    <div className="icon" style={{ color: isToday ? '' : '#bbb' }}>
+                      <MdLocationOn />
+                    </div>
+                    {location}
+                  </div>
+                  <Button color="link" className="see-more-btn"  onClick={() => this.handleClickEventList(momentedDate)}>
+                    SEE MORE
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+          );
+        }
         return;
       }) : '';
     return mappedEvent;
   }
 
+  renderNotesIndexOption() {
+    const { selectedDate, eventList } = this.state;
+   
+    const selectedDateEventIdx = eventList.findIndex((eventElmt) => (selectedDate.isSame(moment(eventElmt.date, dateFormat), 'day')));
+    const mappedOption = ((selectedDateEventIdx !== -1) && eventList[selectedDateEventIdx].notesList) ? eventList[selectedDateEventIdx].notesList
+      .map((note, index) => (<option key={index}>{index+1}</option>)) : (<option>1</option>);
+
+    return mappedOption;
+  }
+
   render() {
     const css = this.createBadge();
-    const { selectedDate, editedNotes } = this.state;editedNotes
+    const { selectedDate, editedNotes, editedLocation, editedTime, editedIndex } = this.state;
 
     return (
       <div id="calendar-page">
@@ -197,9 +316,10 @@ class Calendar extends React.PureComponent {
                 Date
               </div>
               <RcCalendar
-                onChange={this.handleSelect}
+                onChange={this.handleSelectDate}
                 showDateInput={false}
                 showToday={false}
+                value={selectedDate}
               />
             </Col>
           </Col>
@@ -219,6 +339,22 @@ class Calendar extends React.PureComponent {
                       placeholder="Klik untuk menulis notes..."
                       value={editedNotes}
                     />
+                    <div className="notes-detail">
+                      <div className="detail-col">
+                        <MdLocationOn style={{marginRight: "6px", color: "#71C5EF", fontSize: "20px"}}/>
+                        <Input className="location-input" type="text" placeholder="Location" onChange={this.handleLocationChange} value={editedLocation}/>
+                      </div>
+                      <div className="detail-col" style={{marginLeft: "10px"}}>
+                        <MdAccessTime style={{marginRight: "6px", color: "#71C5EF", fontSize: "20px"}}/>
+                        <Input className="time-input" type="time" placeholder="Time" onChange={this.handleTimeChange} value={editedTime} />
+                      </div>
+                      <div className="detail-col" style={{marginLeft: "10px"}}>
+                        <MdList style={{marginRight: "6px", color: "#71C5EF", fontSize: "20px"}}/>
+                        <Input className="index-input" type="select" value={editedIndex} onChange={this.handleIndexChange}>
+                          {this.renderNotesIndexOption()}
+                        </Input>
+                      </div>
+                    </div>
                   </div>
                 </Col>
                 <Col id="event" md="12">
