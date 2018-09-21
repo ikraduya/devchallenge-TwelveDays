@@ -177,15 +177,17 @@ class Calendar extends React.PureComponent {
           }
         ],
       };
-      this.setState({
-        eventList: [...eventList, newEvent],
-      }, () => {
-        axios.post('/api/calendar/events/create', {
-          time: momentedDate.set(settedTime),
-          notes: editedNotes,
-          location: editedLocation,
+      axios.post('/api/calendar/events/create', {
+        time: momentedDate.set(settedTime),
+        notes: editedNotes,
+        location: editedLocation,
+      })
+        .then(({ data: res }) => {
+          newEvent.notesList[0].id = res.data._id;
+          this.setState({
+            eventList: [...eventList, newEvent],
+          });
         })
-      });
     }
   }
 
